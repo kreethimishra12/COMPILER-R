@@ -1,0 +1,41 @@
+ 
+ int : keyword 
+ i : identifier
+; 
+ for : keyword 
+(
+ i : identifier 
+0: number
+;
+ i : identifier
+=<= relational operator  
+24: number
+;
+ i : identifier
++
++
+) 
+ if : keyword 
+( 
+ strcmp : keyword 
+(
+ s : identifier
+,
+ keyword : identifier
+[
+ i : identifier
+]
+)
+== relational operator  
+0: number
+) 
+ return : keyword  
+1: number
+; 
+ return : keyword  
+0: number
+;
+ my : identifier
+ group : identifier
+ number : identifier
+ is : identifier
