@@ -1,0 +1,77 @@
+integer [0-9]*
+id [a-zA-Z][a-zA-Z0-9]*
+float [0-9]*\.[0-9]*
+signedfloat [+-]?([0-9]*[.])?[0-9]+
+signedinteger ^[-+]?[0-9]*
+signedexpo ^[-+][0-9]+\.[0-9]+[eE][-+]?[0-9]+$
+expo ^[0-9]+\.[0-9]+[eE][-+]?[0-9]
+
+%{
+#include<stdio.h>
+#include<string.h>
+int i=0,j=0,cnt=0,n=0,com=0,scom=0;
+char st[10][10];
+int lookup(char st[10][10],char *id,int n);
+
+%}
+
+%%
+\n {scom=0;n++;}
+"//" {scom=1;printf("\n single line comment\n\n");}
+"/*" {com=1;printf("\n comment start\n");}
+"*/" {com=0;printf("\n comment end\n");}
+strcmp |
+float |
+char |
+double |
+int |
+struct |
+class |
+main |
+strlen |
+void {if(!com&&!scom)printf("\n %s is keyword",yytext);}
+"<=" {if(!com&&!scom)printf("\n %s is Relational operator Lessthan or Equal to",yytext);}
+"<" {if(!com&&!scom)printf("\n %s is Relational operator Lessthan",yytext);}
+">=" {if(!com&&!scom)printf("\n %s is Relational operator Greaterthan or Equal to",yytext);}
+">" {if(!com&&!scom)printf("\n %s is Relational operator Greaterthan",yytext);}
+"==" {if(!com&&!scom)printf("\n %s is Relational operator Equal to",yytext);}
+"!=" {if(!com&&!scom)printf("\n %s is Relational operator Not Equal to",yytext);}
+"=" {if(!com&&!scom)printf("\n %s is Assignment operator",yytext);}
+{id} {if(!com&&!scom)printf("\n %s is identifier",yytext);
+     if (!lookup(st,yytext,i)){
+     strcpy(st[i++],yytext);cnt++;}
+}
+{integer} {if(!com&&!scom)printf("\n %s is unsignedinteger",yytext);}
+{signedinteger} {if(!com&&!scom)printf("\n %s is signedinteger",yytext);}
+{float} {if(!com&&!scom)printf("\n %s is unsignedfloat",yytext);}
+{signedfloat} {if(!com&&!scom)printf("\n %s is signedfloat",yytext);}
+{signedexpo} {if(!com&&!scom)printf("\n %s is signedexponential",yytext);}
+{expo} {if(!com&&!scom)printf("\n %s is exponential",yytext);}
+%%
+int main() {
+FILE *myfile = fopen("x.txt", "r");
+FILE *open=fopen("o.txt", "w");
+yyout=open;
+yyin = myfile;
+while(yylex());
+fclose(myfile);
+fclose(open);
+printf("\n the contents of symbol table are :\n");
+for(j=0;j<i;j++)
+printf("\n %s",st[j]); printf("\n\n");
+return 0;
+}
+
+
+
+int yywrap()
+{
+return 1;
+}
+int lookup(char st[10][10],char *id,int n)
+{
+for(j=0;j<n;j++)
+if(!strcmp(st[j],id))
+return 1;
+return 0;
+}

@@ -1,0 +1,19 @@
+void main{
+//assign value if integer
+int integer=2;
+float j=10.0;
+char m[]="lehar";
+int l=strlen(m);
+//find lenght of string
+/*there can be
+be different type of signed and unsigned varible */
+//signed int
+
+int unsignedint= 2
+int singenedint = -34
+float unsignedfloat= 3.0
+float signedfloat= -89.4
+if(integer<=unsignedint)
+{
+printf("integer is bigger")
+}
